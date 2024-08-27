@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radio Player</title>
+<style>
+  body {
+    margin: 0%;
+    padding: 0%;
+    font-family: Arial, sans-serif;
+    background-image: url('https://static.wixstatic.com/media/b74900_e98ded8e4efb44989650c54c2cad50f6~mv2.png'); /* Ganti 'background.jpg' dengan nama file gambar Anda */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Mengatur item ke posisi tengah bawah */
+    transition: background 0.5s ease-in-out; /* Transisi animasi untuk perubahan latar belakang */
+}
+  #radioPlayerContainer {
+    position: fixed; /* Mengatur posisi absolut agar terletak di luar background */
+    top: -100%; /* Sesuaikan jarak dari bawah */
+    /*right: -100%; /* Sesuaikan jarak dari kanan */
+    z-index: 1; /* Pastikan gambar berada di bawah teks */
+    transition: top 0.5s ease; /* Animasi transisi */
+    /* left: 80%;  Patokan dari Kiri */
+    /*right: -33%; /*  Patokan dari kanan */
+    /*top: 50%; /* Posisi vertikal tengah */
+    /*Transform: translateY(-50%) rotate(-270deg); /* Memiringkan tulisan 90 derajat */
+    background-color: rgba(0, 0, 0, 0.2); /* Menggunakan latar belakang semi-transparan */
+    padding: 2%;
+    border-radius: 5%;
+    font-family: 'Roboto', sans-serif; /* Ganti 'Roboto' dengan font yang Anda inginkan */
+    font-size: 8%;  /*ukuran font status radio*/
+    font-weight: bold; /* Menambahkan efek tebal */
+    text-align: center; 
+    color: rgb(255, 255, 255, 0.5);
+    }
+
+  #radioPlayer {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0); /* Menggunakan latar belakang semi-transparan */
+    padding: 20%;
+    border-radius: 50%; /* Mengubah radius border untuk membuatnya menjadi lingkaran */
+    width: 30%; /* Lebar dan tinggi harus sama untuk membuatnya lingkaran */
+    height: 30%;
+    margin-bottom: 12%; /* Menggeser ke bawah */
+    /*margin-right: 20%; /* menggeser ke kiri */
+    text-align: center; /* Pusatkan teks di tengah */
+    }
+
+  button {
+    padding: 50% 20%;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    border-radius: 50%; /* Mengubah radius border untuk membuatnya menjadi lingkaran */
+    width: 100%; /* Lebar dan tinggi harus sama untuk membuatnya lingkaran */
+    height: 100%;
+    font-family: 'Roboto', sans-serif; /* Ganti 'Roboto' dengan font yang Anda inginkan */
+    font-size: 20%; /*font on-off keinginan Anda */
+    font-weight: bold; /* Menambahkan efek tebal */
+    /*font-style: italic; /* Menambahkan efek garis miring */
+    line-height: 0; /* Menyesuaikan tinggi garis untuk posisi tengah */
+    text-align: center; /* Pusatkan teks di tengah */
+  }
+
+  button.on {
+    background-color: #52D017;
+    color: white;
+  }
+
+  button.off {
+    background-color: rgb(208, 0, 0);
+    color: white;
+  }
+
+  
+</style>
+</head>
+<body>
+    <div id="radioPlayerContainer">
+        <div id="radioPlayerText">RADIO PLAYER : ON</div>
+        <div id="clock"></div>
+        
+        <script>
+ // Fungsi untuk mengupdate waktu dan menampilkan pada elemen HTML
+          function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('clock').textContent = timeString;
+          }
+      
+          // Panggil fungsi updateClock setiap detik
+          setInterval(updateClock, 1000);
+      
+          // Jalankan fungsi updateClock saat halaman dimuat
+          updateClock();
+        </script>  
+        
+    </div>
+      
+  <div id="radioPlayer">
+    <button id="toggleBtn" class="off">OFF</button>
+  </div>
+   
+  <audio id="audioPlayer">
+    <source src="https://ssg.streamingmurah.com:8228/stream" type="audio/mpeg">
+    Your browser does not support radio suara kasih element.
+  </audio>
+  <script>
+    const toggleBtn = document.getElementById('toggleBtn');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const radioPlayerContainer = document.getElementById('radioPlayerContainer'); //Tambahkan ini untuk mengakses status radio
+    const body = document.body;
+
+    toggleBtn.addEventListener('click', function() {
+      if (toggleBtn.classList.contains('off')) {
+        toggleBtn.textContent = 'ON';
+        toggleBtn.classList.remove('off');
+        toggleBtn.classList.add('on');
+        audioPlayer.play();
+        radioPlayerContainer.style.top = '0%';
+        body.style.backgroundImage = "url('https://static.wixstatic.com/media/b74900_999671e0b8b84c02b1bbb2dda181fa56~mv2.gif')"; // Ganti dengan nama gambar saat tombol on
+      } else {
+        toggleBtn.textContent = 'OFF';
+        toggleBtn.classList.remove('on');
+        toggleBtn.classList.add('off');
+        audioPlayer.pause();
+        radioPlayerContainer.style.top = '-100%';
+        body.style.backgroundImage = "url('https://static.wixstatic.com/media/b74900_e98ded8e4efb44989650c54c2cad50f6~mv2.png')"; // Ganti dengan nama gambar saat tombol off
+      }
+    });
+  </script>
+</body>
+</html>
